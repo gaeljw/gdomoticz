@@ -10,8 +10,13 @@ app.factory("temperatureFactory", function($resource) {
 // Data controller
 app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
 
-    function updateTemperature(temperature) {
-        $scope.temperature = temperature;
+    function updateTemperature(data) {
+        $scope.temperature = data;
+        var chart = $('#temperature-gauge').highcharts();
+        if (chart) {
+            var point = chart.series[0].points[0];
+            point.update(data.temperature);
+        }
     }
 
     temperatureFactory.get(updateTemperature);

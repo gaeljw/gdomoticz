@@ -91,23 +91,14 @@ desired effect
         <section class="sidebar">
 
             <!-- Sidebar Menu -->
+            <!-- TODO gerer le active -->
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
-                <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i
-                            class="fa fa-angle-left pull-right"></i></a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Link in level 2</a></li>
-                        <li><a href="#">Link in level 2</a></li>
-                    </ul>
-                </li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Données GDomoticz</span></a></li>
+                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Données Domoticz</span></a></li>
+                <li><a href="#"><i class="fa fa-cog"></i> <span>Données système</span></a></li>
             </ul>
-            <!-- /.sidebar-menu -->
         </section>
-        <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -116,7 +107,7 @@ desired effect
         <section class="content-header">
             <h1>
                 Tableau de bord
-                <small>Optional description</small>
+                <small>Données Domoticz brutes</small>
             </h1>
             <!--<ol class="breadcrumb">-->
             <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
@@ -132,24 +123,22 @@ desired effect
                     <div class="box-header with-border">
                         <h3 class="box-title">Température</h3>
                         <div class="box-tools pull-right">
-                            <!-- Buttons, labels, and many other things can be placed here! -->
-                            <!-- Here is a label for example -->
                             <span class="label label-primary">Label</span>
-                        </div><!-- /.box-tools -->
-                    </div><!-- /.box-header -->
+                        </div>
+                    </div>
                     <div class="box-body">
                         Température : {{temperature.temperature}}
-                    </div><!-- /.box-body -->
+                        <div id="temperature-gauge" style="width:100%; height:200px;"></div>
+                    </div>
                     <div class="box-footer">
+                        Variation par rapport à la dernière heure : TODO
                         Dernière MAJ : {{temperature.lastUpdate}}
-                    </div><!-- box-footer -->
-                </div><!-- /.box -->
+                    </div>
+                </div>
             </div>
 
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 
     <!-- Main Footer -->
     <footer class="main-footer">
@@ -162,7 +151,6 @@ desired effect
     </footer>
 
 </div>
-<!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
 
@@ -173,10 +161,92 @@ desired effect
 <script src="plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- Highcharts -->
+<script src="highcharts/js/highcharts.js"></script>
+<script src="highcharts/js/highcharts-more.js"></script>
+<script src="highcharts/js/modules/solid-gauge.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-
+<!-- GDomoticz -->
 <script src="angular/gdomoticz.js"></script>
+
+
+<script>
+$(function () {
+
+    // The speed gauge
+    $('#temperature-gauge').highcharts({
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            min: -20,
+            max: 50,
+            tickPositions: [-20, 50],
+            stops: [
+                [0.1, '#00ddff'], // blue
+                [0.5, '#00ee00'], // green
+                [0.9, '#ff8800'] // orange
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: 'Température',
+            data: [25],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:2em;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                       '<span style="font-size:12px;color:silver">°C</span></div>'
+            }
+        }]
+
+    });
+
+});
+</script>
+
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
