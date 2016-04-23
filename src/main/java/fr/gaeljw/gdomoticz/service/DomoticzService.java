@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -30,7 +31,7 @@ public class DomoticzService {
             DomoticzResult result = response.getResult()[0];
             Temperature t = new Temperature();
             t.setTemperature(result.getTemp());
-            t.setLastUpdate(result.getLastUpdate());
+            t.setLastUpdate(result.getLastUpdate().atZone(ZoneId.systemDefault()));
             return t;
         } else {
             // TODO log
@@ -58,7 +59,7 @@ public class DomoticzService {
                 t.setName(result.getName());
                 t.setHardwareName(result.getHardwareName());
                 t.setTemperature(result.getTemp());
-                t.setLastUpdate(result.getLastUpdate());
+                t.setLastUpdate(result.getLastUpdate().atZone(ZoneId.systemDefault()));
                 t.setSignalLevel(result.getSignalLevel());
                 temperatures.add(t);
             }

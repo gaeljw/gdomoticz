@@ -3,9 +3,8 @@ package fr.gaeljw.gdomoticz.model.domoticz.api;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DomoticzResult {
@@ -15,7 +14,7 @@ public class DomoticzResult {
     private String hardwareName;
     @JsonProperty("LastUpdate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date lastUpdate;
+    private LocalDateTime lastUpdate;
     @JsonProperty("Name")
     private String name;
     @JsonProperty("SignalLevel")
@@ -31,11 +30,11 @@ public class DomoticzResult {
         this.idx = idx;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

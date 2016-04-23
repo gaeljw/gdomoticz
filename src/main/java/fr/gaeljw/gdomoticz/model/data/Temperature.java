@@ -2,7 +2,7 @@ package fr.gaeljw.gdomoticz.model.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class Temperature {
 
@@ -10,7 +10,8 @@ public class Temperature {
     private String name;
     private String hardwareName;
     private double temperature;
-    private Date lastUpdate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    private ZonedDateTime lastUpdate;
     private int signalLevel;
 
     public String getId() {
@@ -45,11 +46,11 @@ public class Temperature {
         this.temperature = temperature;
     }
 
-    public Date getLastUpdate() {
+    public ZonedDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(ZonedDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
