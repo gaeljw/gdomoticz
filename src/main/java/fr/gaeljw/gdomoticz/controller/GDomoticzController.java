@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/data")
 public class GDomoticzController {
@@ -16,9 +18,15 @@ public class GDomoticzController {
     @Autowired
     private DomoticzService domoticzService;
 
-    @RequestMapping(method = RequestMethod.GET, value="/temperature")
+    // FIXME enlever
+    @RequestMapping(method = RequestMethod.GET, value = "/temperature")
     public Temperature temperature() {
         return domoticzService.getTemperature("1");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/temperatures")
+    public List<Temperature> temperatures() {
+        return domoticzService.getTemperatures();
     }
 
 }

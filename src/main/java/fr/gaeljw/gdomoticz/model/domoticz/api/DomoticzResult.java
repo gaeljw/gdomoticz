@@ -11,11 +11,15 @@ import java.util.Date;
 public class DomoticzResult {
 
     private String idx;
+    @JsonProperty("HardwareName")
+    private String hardwareName;
     @JsonProperty("LastUpdate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdate;
     @JsonProperty("Name")
     private String name;
+    @JsonProperty("SignalLevel")
+    private int signalLevel;
     @JsonProperty("Temp")
     private double temp;
 
@@ -49,5 +53,21 @@ public class DomoticzResult {
 
     public void setTemp(double temp) {
         this.temp = temp;
+    }
+
+    public String getHardwareName() {
+        return hardwareName;
+    }
+
+    public void setHardwareName(String hardwareName) {
+        this.hardwareName = hardwareName;
+    }
+
+    public int getSignalLevel() {
+        return signalLevel;
+    }
+
+    public void setSignalLevel(int signalLevel) {
+        this.signalLevel = signalLevel;
     }
 }

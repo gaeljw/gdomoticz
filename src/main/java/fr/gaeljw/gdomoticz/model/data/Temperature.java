@@ -6,9 +6,36 @@ import java.util.Date;
 
 public class Temperature {
 
+    private String id;
+    private String name;
+    private String hardwareName;
     private double temperature;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdate;
+    private int signalLevel;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHardwareName() {
+        return hardwareName;
+    }
+
+    public void setHardwareName(String hardwareName) {
+        this.hardwareName = hardwareName;
+    }
 
     public double getTemperature() {
         return temperature;
@@ -24,5 +51,13 @@ public class Temperature {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public int getSignalLevel() {
+        return signalLevel;
+    }
+
+    public void setSignalLevel(int signalLevel) {
+        this.signalLevel = signalLevel;
     }
 }

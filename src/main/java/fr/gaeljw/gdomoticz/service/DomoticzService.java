@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DomoticzService {
@@ -38,6 +37,36 @@ public class DomoticzService {
             return null;
         }
 
+    }
+
+    public List<Temperature> getTemperatures() {
+        RestTemplate restTemplate = new RestTemplate();
+        // TODO parametrer URL complete
+        Map<String, Object> parametres = new HashMap<>();
+        parametres.put("type", "devices");
+        parametres.put("filter", "temp");
+        parametres.put("used", true);
+        parametres.put("order", "Name");
+        DomoticzResponse response = restTemplate.getForObject(domoticzApiUrl + "?type={type}&filter={filter}&used={used}&order={order}", DomoticzResponse.class, parametres);
+
+        // TODO ENUM Status
+        if (response != null && response.getStatus().equals("OK") && response.getResult() != null) {
+            List<Temperature> temperatures = new ArrayList<>(response.getResult().length);
+            for (DomoticzResult result : response.getResult()) {
+                Temperature t = new Temperature();
+                t.setId(result.getIdx());
+                t.setName(result.getName());
+                t.setHardwareName(result.getHardwareName());
+                t.setTemperature(result.getTemp());
+                t.setLastUpdate(result.getLastUpdate());
+                t.setSignalLevel(result.getSignalLevel());
+                temperatures.add(t);
+            }
+            return temperatures;
+        } else {
+            // TODO log
+            return Collections.emptyList();
+        }
     }
 
 }

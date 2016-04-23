@@ -57,7 +57,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -118,23 +118,27 @@ desired effect
         <!-- Main content -->
         <section class="content" ng-controller="DataCtrl">
 
-            <div class="col-md-4">
+            <h3>Températures</h3>
+
+            <div class="col-md-4" ng-repeat="t in temperatures">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Température</h3>
+                        <h3 class="box-title">{{t.name}}</h3>
                         <div class="box-tools pull-right">
-                            <span class="label label-primary">Label</span>
+                            <span class="label label-info">{{t.hardwareName}}</span>
+                            <span class="label label-success">{{t.signalLevel}} <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>&nbsp;</span>
                         </div>
                     </div>
                     <div class="box-body">
-                        Température : {{temperature.temperature}}
-                        <div id="temperature-gauge" style="width:100%; height:200px;"></div>
+                        Température : {{t.temperature}}
+                        <div id="temperature-gauge-{{t.id}}" gdz-temperature-gauge style="width:100%; height:200px;"></div>
                     </div>
                     <div class="box-footer">
                         Variation par rapport à la dernière heure : TODO
-                        Dernière MAJ : {{temperature.lastUpdate}}
+                        Dernière MAJ : {{t.lastUpdate | date : 'dd/MM/yyyy @ hh:mm:ss'}}
                     </div>
                 </div>
+
             </div>
 
             <div class="clearfix"></div>
@@ -158,7 +162,7 @@ desired effect
     <footer class="main-footer">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            Anything you want
+            TODO dernier reload des données
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2016 <a href="#">gaeljw</a>.</strong> All rights reserved.&nbsp;
@@ -185,27 +189,6 @@ desired effect
 <script src="dist/js/app.min.js"></script>
 <!-- GDomoticz -->
 <script src="angular/gdomoticz.js"></script>
-
-
-<script>
-$(function () {
-    $('#temperature-gauge').highcharts(Highcharts.merge(gaugeDefaultOptions, {
-        yAxis: {
-            min: -20,
-            max: 50
-        },
-        series: [{
-            name: 'Température',
-            data: [50],
-            dataLabels: {
-                format: '<div style="text-align:center"><span style="font-size:2em;color:' +
-                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                       '<span style="font-size:12px;color:silver">°C</span></div>'
-            }
-        }]
-    }));
-});
-</script>
 
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
