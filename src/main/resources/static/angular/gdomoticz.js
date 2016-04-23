@@ -22,6 +22,6 @@ app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
     temperatureFactory.get(updateTemperature);
     $interval(function() {
         temperatureFactory.get(updateTemperature);
-    }, 5000);
+    }, 30000);
 
 });
