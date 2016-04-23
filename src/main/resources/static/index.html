@@ -120,7 +120,7 @@ desired effect
 
             <h3>Températures</h3>
 
-            <div class="col-md-4" ng-repeat="t in temperatures">
+            <div class="col-md-4" ng-repeat="t in temperatures track by t.id">
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title">{{t.name}}</h3>
@@ -130,7 +130,6 @@ desired effect
                         </div>
                     </div>
                     <div class="box-body">
-                        Température : {{t.temperature}}
                         <div id="temperature-gauge-{{t.id}}" gdz-temperature-gauge style="width:100%; height:200px;"></div>
                     </div>
                     <div class="box-footer">

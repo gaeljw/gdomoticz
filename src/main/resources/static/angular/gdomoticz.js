@@ -10,20 +10,13 @@ app.factory("temperatureFactory", function($resource) {
 // Data controller
 app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
 
-    function updateTemperature(data) {
+    function updateTemperatures(data) {
         $scope.temperatures = data;
-//        data.forEach(function(item) {
-//            var chart = $('#temperature-gauge-' + item.id).highcharts();
-//            if (chart) {
-//                var point = chart.series[0].points[0];
-//                point.update(item.temperature);
-//            }
-//        })
     }
 
-    temperatureFactory.query(updateTemperature);
+    temperatureFactory.query(updateTemperatures);
     $interval(function() {
-        temperatureFactory.query(updateTemperature);
+        temperatureFactory.query(updateTemperatures);
     }, 30000);
 
 });
@@ -33,9 +26,11 @@ app.directive('gdzTemperatureGauge', function() {
         restrict: 'A',
         link: function (scope, element, attrs) {
             var divId = element[0].id;
+            var tId = attrs.id;
+            // Create gauge inside div
             var chart = new Highcharts.Chart(Highcharts.merge(gaugeDefaultOptions, {
                 chart: {
-                    renderTo: divId
+                    renderTo: divId // TODO verifier si ca marche bien avec plusieurs temps
                 },
                 yAxis: {
                     min: -20,
@@ -51,6 +46,17 @@ app.directive('gdzTemperatureGauge', function() {
                     }
                 }]
             }));
+
+            // Watch on temperature to update
+            scope.$watch(function() {
+                return scope.t.temperature;
+            }, function(temperature) {
+               var chart = $('#temperature-gauge-' + scope.t.id).highcharts();
+               if (chart) {
+                   var point = chart.series[0].points[0];
+                   point.update(temperature);
+               }
+           });
         }
     }
 });
