@@ -96,7 +96,7 @@ desired effect
                 <li class="header">MENU</li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Données GDomoticz</span></a></li>
                 <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Données Domoticz</span></a></li>
-                <li><a href="#"><i class="fa fa-cog"></i> <span>Données système</span></a></li>
+                <li><a href="#"><i class="fa fa-cog"></i> <span>Etat du système</span></a></li>
             </ul>
         </section>
     </aside>
@@ -137,7 +137,21 @@ desired effect
                 </div>
             </div>
 
+            <div class="clearfix"></div>
+
         </section>
+
+        <section class="content-header">
+            <h1>
+                Etat du système
+                <small>Backend, Domoticz & Système</small>
+            </h1>
+            <!--<ol class="breadcrumb">-->
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
+            <!--<li class="active">Here</li>-->
+            <!--</ol>-->
+        </section>
+
     </div>
 
     <!-- Main Footer -->
@@ -205,9 +219,13 @@ $(function () {
             max: 50,
             tickPositions: [-20, 50],
             stops: [
-                [0.1, '#00ddff'], // blue
-                [0.5, '#00ee00'], // green
-                [0.9, '#ff8800'] // orange
+                [0, '#0033CC'],
+                [0.35, '#00DDCC'],
+                [0.4, '#00DD99'],
+                [0.6, '#CCDD00'],
+                [0.7, '#FFDD00'],
+                [0.8, '#FF8800'],
+                [0.9, '#FF0000']
             ],
             lineWidth: 0,
             minorTickInterval: null,
