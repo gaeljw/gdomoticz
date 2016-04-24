@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 public class DomoticzResult {
 
     private String idx;
+    @JsonProperty("BatteryLevel")
+    private int batteryLevel;
     @JsonProperty("HardwareName")
     private String hardwareName;
     @JsonProperty("LastUpdate")
@@ -28,6 +30,14 @@ public class DomoticzResult {
 
     public void setIdx(String idx) {
         this.idx = idx;
+    }
+
+    public int getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    public void setBatteryLevel(int batteryLevel) {
+        this.batteryLevel = batteryLevel;
     }
 
     public LocalDateTime getLastUpdate() {

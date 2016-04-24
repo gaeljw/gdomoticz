@@ -61,6 +61,7 @@ public class DomoticzService {
                 t.setTemperature(result.getTemp());
                 t.setLastUpdate(result.getLastUpdate().atZone(ZoneId.systemDefault()));
                 t.setSignalLevel(result.getSignalLevel());
+                t.setBatteryLevel(result.getBatteryLevel());
                 temperatures.add(t);
             }
             return temperatures;

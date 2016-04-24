@@ -13,6 +13,7 @@ public class Temperature {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private ZonedDateTime lastUpdate;
     private int signalLevel;
+    private int batteryLevel;
 
     public String getId() {
         return id;
@@ -60,5 +61,13 @@ public class Temperature {
 
     public void setSignalLevel(int signalLevel) {
         this.signalLevel = signalLevel;
+    }
+
+    public int getBatteryLevel() {
+        return batteryLevel;
+    }
+
+    public void setBatteryLevel(int batteryLevel) {
+        this.batteryLevel = batteryLevel;
     }
 }
