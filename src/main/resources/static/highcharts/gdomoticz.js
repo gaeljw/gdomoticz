@@ -1,3 +1,10 @@
+Highcharts.setOptions({
+    global: {
+        useUTC: false
+    }
+});
+
+
 var gaugeDefaultOptions = {
     chart: {
         type: 'solidgauge'

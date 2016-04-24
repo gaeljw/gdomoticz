@@ -87,17 +87,12 @@ desired effect
             </div>
         </nav>
     </header>
-    <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
-
-        <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-
-            <!-- Sidebar Menu -->
             <!-- TODO gerer le active -->
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Données GDomoticz</span></a></li>
+                <li><a href="#GDomoticzData"><i class="fa fa-link"></i> <span>Données GDomoticz</span></a></li>
                 <li class="active"><a href="#DomoticzData"><i class="fa fa-link"></i> <span>Données Domoticz</span></a>
                 </li>
                 <li><a href="#SystemData"><i class="fa fa-cog"></i> <span>Etat du système</span></a></li>
@@ -145,6 +140,16 @@ desired effect
                 </div>
 
                 <div class="clearfix"></div>
+
+            </section>
+
+            <section id="GDomoticzData" ng-controller="HistoryCtrl">
+
+                <h2 class="page-header"><a href="#GDomoticzData">Données GDomoticz</a></h2>
+
+                <h3>Historique des températures</h3>
+
+                <div id="temperaturesHistory" gdz-temperatures-history="{{points}}" />
 
             </section>
 

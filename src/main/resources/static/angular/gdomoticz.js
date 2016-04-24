@@ -5,6 +5,9 @@ var app = angular.module('gdomoticzApp', ['ngResource']);
 app.factory("temperatureFactory", function($resource) {
     return $resource('/data/temperatures');
 });
+app.factory("temperatureHistoryFactory", function($resource) {
+    return $resource('/data/history/temperatures');
+});
 
 // Create service for accessing system metrics
 app.factory("systemFactory", function($resource) {
@@ -22,6 +25,19 @@ app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
     temperatureFactory.query(updateTemperatures);
     $interval(function() {
         temperatureFactory.query(updateTemperatures);
+    }, 30000);
+
+});
+
+app.controller("HistoryCtrl", function($scope, $interval, temperatureHistoryFactory) {
+
+    function updateGraph(data) {
+        $scope.points = data;
+    }
+
+    temperatureHistoryFactory.query(updateGraph);
+    $interval(function() {
+        temperatureHistoryFactory.query(updateGraph);
     }, 30000);
 
 });
@@ -74,6 +90,80 @@ app.directive('gdzTemperatureGauge', function() {
                if (chart) {
                    var point = chart.series[0].points[0];
                    point.update(temperature);
+               }
+           });
+        }
+    }
+});
+
+app.directive('gdzTemperaturesHistory', function() {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var divId = element[0].id;
+
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'spline',
+                    renderTo: divId
+                },
+                title: {
+                    text: 'Historique des températures'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    title: {
+                        text: 'Heure'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Température (°C)'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            Highcharts.dateFormat('%Hh%M', this.x) + ' : ' +
+                            Highcharts.numberFormat(this.y, 2) + '°C';
+                    }
+                },
+
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+
+                series: []
+            });
+
+
+            // Watch on points
+            scope.$watch(function() {
+                return scope.points;
+            }, function(temperature) {
+               var chart = $('#temperaturesHistory').highcharts();
+
+               if (chart) {
+                    console.log('Graph exists');
+                    chart.series.forEach(function(s) {
+                        s.remove();
+                    });
+                    scope.points.forEach(function(device) {
+                       var serie = {};
+                       serie.name = 'Device ' + device.idDevice;
+                       serie.data = [];
+                       device.temperatures.forEach(function(point) {
+                           var p = [Date.parse(point.date), point.temperature];
+                           serie.data.push(p);
+                       });
+                    chart.addSeries(serie, true);
+                   });
+               } else {
+               console.log('test');
                }
            });
         }
