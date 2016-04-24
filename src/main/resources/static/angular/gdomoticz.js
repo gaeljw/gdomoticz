@@ -6,9 +6,9 @@ app.factory("temperatureFactory", function($resource) {
     return $resource('/data/temperatures');
 });
 
-// Create service for accessing system data
+// Create service for accessing system metrics
 app.factory("systemFactory", function($resource) {
-    return $resource('/system/memory');
+    return $resource('/system/metrics');
 });
 
 
@@ -30,7 +30,7 @@ app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
 app.controller("SystemCtrl", function($scope, $interval, systemFactory) {
 
     function updateMemory(data) {
-        $scope.memory = data;
+        $scope.metrics = data;
     }
 
     systemFactory.get(updateMemory);

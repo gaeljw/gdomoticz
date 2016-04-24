@@ -126,7 +126,8 @@ desired effect
                             <h3 class="box-title">{{t.name}}</h3>
                             <div class="box-tools pull-right">
                                 <span class="label label-info">{{t.hardwareName}}</span>
-                                <span class="label label-success">{{t.signalLevel}} <i class="fa fa-signal"></i>&nbsp;</span>
+                                <span class="label label-success">{{t.signalLevel}} <i
+                                        class="fa fa-signal"></i>&nbsp;</span>
                                 <!-- TODO battery icon -->
                                 <span class="label label-success">{{t.batteryLevel}} <i class="fa fa-battery-full"></i>&nbsp;</span>
                             </div>
@@ -155,13 +156,71 @@ desired effect
                     <div class="info-box bg-blue">
                         <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Mémoire Java</span>
-                            <span class="info-box-number">{{(memory.allocated - memory.free) / 1024 / 1024 | number : 2}} / {{memory.allocated / 1024 / 1024 | number : 2}} Mo</span>
+                            <span class="info-box-text">Charge CPU</span>
+                            <span class="info-box-number">
+                                {{metrics.systemInfo.cpuLoad * 100 | number : 2}} %
+                            </span>
                             <div class="progress">
-                                <div class="progress-bar" style="width: {{ (memory.allocated - memory.free) / memory.allocated * 100}}%"></div>
+                                <div class="progress-bar"
+                                     style="width: {{metrics.systemInfo.cpuLoad * 100}}%"></div>
+                            </div>
+                            <span class="progress-description" ng-if="metrics.systemInfo.cpuLoadAverage >= 0">
+                                Moyenne : {{metrics.systemInfo.cpuLoadAverage * 100}} %
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="info-box bg-olive">
+                        <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">RAM</span>
+                            <span class="info-box-number">
+                                {{(metrics.systemInfo.totalMemory - metrics.systemInfo.freeMemory) / 1024 / 1024 | number : 2}} / {{metrics.systemInfo.totalMemory / 1024 / 1024 | number : 2}} Mo
+                            </span>
+                            <div class="progress">
+                                <div class="progress-bar"
+                                     style="width: {{ (metrics.systemInfo.totalMemory - metrics.systemInfo.freeMemory) / metrics.systemInfo.totalMemory * 100}}%"></div>
+                            </div>
+                            <span class="progress-description">
+                                {{ (metrics.systemInfo.totalMemory - metrics.systemInfo.freeMemory) / metrics.systemInfo.totalMemory * 100 | number : 2}} %
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Swap</span>
+                            <span class="info-box-number">
+                                {{(metrics.systemInfo.totalSwap - metrics.systemInfo.freeSwap) / 1024 / 1024 | number : 2}} / {{metrics.systemInfo.totalSwap / 1024 / 1024 | number : 2}} Mo
+                            </span>
+                            <div class="progress">
+                                <div class="progress-bar"
+                                     style="width: {{ (metrics.systemInfo.totalSwap - metrics.systemInfo.freeSwap) / metrics.systemInfo.totalSwap * 100}}%"></div>
+                            </div>
+                            <span class="progress-description">
+                                {{ (metrics.systemInfo.totalSwap - metrics.systemInfo.freeSwap) / metrics.systemInfo.totalSwap * 100 | number : 2}} %
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="info-box bg-purple">
+                        <span class="info-box-icon"><i class="fa fa-cubes"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Mémoire Java</span>
+                            <span class="info-box-number">{{(metrics.jvmMemoryInfo.allocated - metrics.jvmMemoryInfo.free) / 1024 / 1024 | number : 2}} / {{metrics.jvmMemoryInfo.allocated / 1024 / 1024 | number : 2}} Mo</span>
+                            <div class="progress">
+                                <div class="progress-bar"
+                                     style="width: {{ (metrics.jvmMemoryInfo.allocated - metrics.jvmMemoryInfo.free) / metrics.jvmMemoryInfo.allocated * 100}}%"></div>
                             </div>
                         <span class="progress-description">
-                            Max : {{memory.max / 1024 / 1024 | number : 2}} Mo
+                            {{(metrics.jvmMemoryInfo.allocated - metrics.jvmMemoryInfo.free) / metrics.jvmMemoryInfo.allocated * 100 | number : 2}} %
                         </span>
                         </div>
                     </div>
