@@ -1,5 +1,10 @@
 
+.content {
+    padding: 10px 25px;
+}
+
 .page-header {
+    margin: 20px 0 10px 0!important;
     font-size: 30px;
 }
 
