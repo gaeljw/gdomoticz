@@ -1,0 +1,15 @@
+
+.page-header {
+    font-size: 30px;
+}
+
+.page-header span, .page-header a {
+    color: #000;
+}
+
+.page-header a::before {
+    content: '#';
+    font-size: 25px;
+    margin-right: 10px;
+    color: #3c8dbc;
+}
