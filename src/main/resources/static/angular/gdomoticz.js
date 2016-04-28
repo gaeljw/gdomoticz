@@ -8,6 +8,9 @@ app.factory("temperatureFactory", function($resource) {
 app.factory("temperatureHistoryFactory", function($resource) {
     return $resource('/data/history/temperatures');
 });
+app.factory("temperaturesMonthHistoryFactory", function($resource) {
+    return $resource('/data/history/temperatures/month');
+});
 
 // Create service for accessing system metrics
 app.factory("systemFactory", function($resource) {
@@ -29,13 +32,18 @@ app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
 
 });
 
-app.controller("HistoryCtrl", function($scope, $interval, temperatureHistoryFactory) {
+app.controller("HistoryCtrl", function($scope, $interval, temperatureHistoryFactory, temperaturesMonthHistoryFactory) {
 
     function updateGraph(data) {
         $scope.points = data;
     }
 
+    function updateGraphMonth(data) {
+        $scope.pointsMonth = data;
+    }
+
     temperatureHistoryFactory.query(updateGraph);
+    temperaturesMonthHistoryFactory.query(updateGraphMonth);
     $interval(function() {
         temperatureHistoryFactory.query(updateGraph);
     }, 30000);
@@ -164,6 +172,69 @@ app.directive('gdzTemperaturesHistory', function() {
                    });
                } else {
                console.log('test');
+               }
+           });
+        }
+    }
+});
+
+app.directive('gdzTemperaturesHistoryMonth', function() {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var divId = element[0].id;
+
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: divId,
+                    type: 'arearange',
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Temperature variation by day'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: null
+                    }
+                },
+                tooltip: {
+                    crosshairs: true,
+                    shared: true,
+                    valueSuffix: '°C'
+                },
+                legend: {
+                    enabled: false
+                },
+                series: []
+            });
+
+            // Watch on points
+            scope.$watch(function() {
+                return scope.pointsMonth;
+            }, function() {
+               var chart = $('#temperaturesHistoryMonth').highcharts();
+
+               if (chart) {
+                    console.log('Graph exists');
+                    chart.series.forEach(function(s) {
+                        s.remove();
+                    });
+                    scope.pointsMonth.forEach(function(device) {
+                       var serie = {};
+                       serie.name = 'Device ' + device.idDevice;
+                       serie.data = [];
+                       device.points.forEach(function(point) {
+                           var p = [Date.parse(point.date), point.min, point.max];
+                           serie.data.push(p);
+                       });
+                    chart.addSeries(serie, true);
+                   });
+               } else {
+                    console.log('test');
                }
            });
         }

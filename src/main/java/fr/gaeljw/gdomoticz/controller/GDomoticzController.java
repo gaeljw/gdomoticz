@@ -2,6 +2,7 @@ package fr.gaeljw.gdomoticz.controller;
 
 import fr.gaeljw.gdomoticz.model.data.Temperature;
 import fr.gaeljw.gdomoticz.model.mongo.TemperatureAggregation;
+import fr.gaeljw.gdomoticz.model.mongo.TemperatureMinMax;
 import fr.gaeljw.gdomoticz.service.DomoticzService;
 import fr.gaeljw.gdomoticz.service.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class GDomoticzController {
     @RequestMapping(method = RequestMethod.GET, value = "/history/temperatures")
     public List<TemperatureAggregation> historiqueTemperatures() {
         return mongoService.getLastDayTemperatures();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/history/temperatures/month")
+    public List<TemperatureMinMax> monthHistoryTemperatures() {
+        return mongoService.getLastMonthTemperatures();
     }
 
 }
