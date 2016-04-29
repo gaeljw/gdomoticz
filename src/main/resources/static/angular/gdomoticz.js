@@ -98,6 +98,26 @@ app.directive('gdzTemperatureGauge', function() {
                if (chart) {
                    var point = chart.series[0].points[0];
                    point.update(temperature);
+               } else {
+                console.log("La jauge pour " + scope.t.id + " n'existe pas");
+                var chart = new Highcharts.Chart(Highcharts.merge(gaugeDefaultOptions, {
+                    chart: {
+                        renderTo: 'temperature-gauge-' + scope.t.id
+                    },
+                    yAxis: {
+                        min: -20,
+                        max: 50
+                    },
+                    series: [{
+                        name: 'Température',
+                        data: [temperature],
+                        dataLabels: {
+                            format: '<div style="text-align:center"><span style="font-size:2em;color:' +
+                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                        '<span style="font-size:12px;color:silver">°C</span></div>'
+                        }
+                    }]
+                }));
                }
            });
         }
