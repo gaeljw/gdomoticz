@@ -28,7 +28,7 @@ app.controller("DataCtrl", function($scope, $interval, temperatureFactory) {
     temperatureFactory.query(updateTemperatures);
     $interval(function() {
         temperatureFactory.query(updateTemperatures);
-    }, 30000);
+    }, 30000); // 30s
 
 });
 
@@ -46,7 +46,8 @@ app.controller("HistoryCtrl", function($scope, $interval, temperatureHistoryFact
     temperaturesMonthHistoryFactory.query(updateGraphMonth);
     $interval(function() {
         temperatureHistoryFactory.query(updateGraph);
-    }, 30000);
+        temperaturesMonthHistoryFactory.query(updateGraphMonth);
+    }, 300000); //5mn
 
 });
 
@@ -60,7 +61,7 @@ app.controller("SystemCtrl", function($scope, $interval, systemFactory) {
     systemFactory.get(updateMemory);
     $interval(function() {
         systemFactory.get(updateMemory);
-    }, 30000);
+    }, 30000); // 30s
 
 });
 
