@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/apps/gdomoticz/logs/gdomoticz.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
-            <fileNamePattern>/apps/gdomoticz/logs/gdomoticz.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="TIME_BASED_FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
     <logger name="org.springframework.web" level="INFO"/>
