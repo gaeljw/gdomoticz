@@ -33,7 +33,8 @@ public class TemperatureMinMax {
         private double max;
 
         public String getDate() {
-            return date;
+            // FIXME hack
+            return date + "T00:00:00.000+0200";
         }
 
         public void setDate(String date) {
