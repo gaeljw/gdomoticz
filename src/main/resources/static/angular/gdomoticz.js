@@ -178,9 +178,7 @@ app.directive('gdzTemperaturesHistory', function() {
 
                if (chart) {
                     console.log('Graph exists');
-                    chart.series.forEach(function(s) {
-                        s.remove();
-                    });
+                    chart.series.length = 0;
                     scope.points.forEach(function(device) {
                        var serie = {};
                        serie.name = 'Device ' + device.idDevice;
@@ -241,9 +239,7 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
 
                if (chart) {
                     console.log('Graph exists');
-                    chart.series.forEach(function(s) {
-                        s.remove();
-                    });
+                    chart.series.length = 0;
                     scope.pointsMonth.forEach(function(device) {
                        var serie = {};
                        serie.name = 'Device ' + device.idDevice;
