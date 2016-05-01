@@ -184,6 +184,7 @@ app.directive('gdzTemperaturesHistory', function() {
                     scope.points.forEach(function(device) {
                        var serie = {};
                        serie.name = 'Device ' + device.idDevice;
+                       serie.lineWidth = 2;
                        serie.data = [];
                        device.temperatures.forEach(function(point) {
                            var p = [Date.parse(point.date), point.temperature];
