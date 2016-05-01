@@ -84,9 +84,9 @@ app.directive('gdzTemperatureGauge', function() {
                     name: 'Température',
                     data: [scope.t.temperature],
                     dataLabels: {
-                        format: '<div style="text-align:center"><span style="font-size:2em;color:' +
-                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                    '<span style="font-size:12px;color:silver">°C</span></div>'
+                        format: '<div style="text-align:center"><span style="font-size:1.5em;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span> ' +
+                    '<span style="color:silver">°C</span></div>'
                     }
                 }]
             }));
@@ -113,9 +113,9 @@ app.directive('gdzTemperatureGauge', function() {
                         name: 'Température',
                         data: [temperature],
                         dataLabels: {
-                            format: '<div style="text-align:center"><span style="font-size:2em;color:' +
-                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
-                        '<span style="font-size:12px;color:silver">°C</span></div>'
+                            format: '<div style="text-align:center"><span style="font-size:1.5em;color:' +
+                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span> ' +
+                        '<span style="color:silver">°C</span></div>'
                         }
                     }]
                 }));
@@ -137,17 +137,17 @@ app.directive('gdzTemperaturesHistory', function() {
                     renderTo: divId
                 },
                 title: {
-                    text: 'Historique des températures'
+                    text: 'Températures (24h)'
                 },
                 xAxis: {
                     type: 'datetime',
                     title: {
-                        text: 'Heure'
+                        text: null
                     }
                 },
                 yAxis: {
                     title: {
-                        text: 'Température (°C)'
+                        text: null
                     }
                 },
                 tooltip: {
@@ -210,7 +210,7 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Temperature variation by day'
+                    text: 'Températures (30j)'
                 },
                 xAxis: {
                     type: 'datetime'

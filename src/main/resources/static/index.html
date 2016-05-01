@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="gdomoticzApp">
+<html ng-app="gdomoticzApp" lang="fr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -92,8 +92,23 @@ desired effect
             <!-- TODO gerer le active -->
             <ul class="sidebar-menu">
                 <li class="header">MENU</li>
-                <li><a href="#GDomoticzData"><i class="fa fa-link"></i> <span>Données GDomoticz</span></a></li>
-                <li class="active"><a href="#DomoticzData"><i class="fa fa-link"></i> <span>Données Domoticz</span></a>
+                <li class="treeview">
+                    <a href="#LiveData">
+                        <i class="fa fa-link"></i> <span>Données Live</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+                        <li><a href="#LiveDataTemperatures"><i class="fa fa-circle-o"></i> Températures</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#HistoryData">
+                        <i class="fa fa-link"></i> <span>Historiques</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu" style="display: none;">
+                        <li><a href="#temperaturesHistory"><i class="fa fa-circle-o"></i> Températures (24h)</a></li>
+                        <li><a href="#temperaturesHistoryMonth"><i class="fa fa-circle-o"></i> Températures (30j)</a>
+                        </li>
+                    </ul>
                 </li>
                 <li><a href="#SystemData"><i class="fa fa-cog"></i> <span>Etat du système</span></a></li>
             </ul>
@@ -109,32 +124,36 @@ desired effect
         </div>
 
         <div class="content body">
-            <section id="DomoticzData" ng-controller="DataCtrl">
+            <section id="LiveData" ng-controller="DataCtrl">
 
-                <h2 class="page-header"><a href="#DomoticzData">Données Domoticz</a></h2>
+                <h2 class="page-header"><a href="#DomoticzData">Données Live</a></h2>
 
-                <h3>Températures</h3>
+                <div id="LiveDataTemperatures">
 
-                <div class="col-md-4" ng-repeat="t in temperatures track by t.id">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">{{t.name}}</h3>
-                            <div class="box-tools pull-right">
-                                <span class="label label-info">{{t.hardwareName}}</span>
+                    <div class="col-md-3" ng-repeat="t in temperatures track by t.id">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">{{t.name}}</h3>
+                                <div class="box-tools pull-right">
+                                    <span class="label label-info">{{t.hardwareName}}</span>
                                 <span class="label label-success">{{t.signalLevel}} <i
                                         class="fa fa-signal"></i>&nbsp;</span>
-                                <!-- TODO battery icon -->
-                                <span class="label label-success">{{t.batteryLevel}} <i class="fa fa-battery-full"></i>&nbsp;</span>
+                                    <!-- TODO battery icon -->
+                                    <span class="label label-success">{{t.batteryLevel}} <i
+                                            class="fa fa-battery-full"></i>&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div id="temperature-gauge-{{t.id}}" gdz-temperature-gauge
+                                     style="width:100%; height:160px;"></div>
+                            </div>
+                            <div class="box-footer">
+                                <div class="pull-right">
+                                    <small>{{t.lastUpdate | date : 'medium'}}</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="box-body">
-                            <div id="temperature-gauge-{{t.id}}" gdz-temperature-gauge
-                                 style="width:100%; height:200px;"></div>
-                        </div>
-                        <div class="box-footer">
-                            Variation par rapport à la dernière heure : TODO
-                            Dernière MAJ : {{t.lastUpdate | date : 'medium'}}
-                        </div>
+
                     </div>
 
                 </div>
@@ -143,15 +162,11 @@ desired effect
 
             </section>
 
-            <section id="GDomoticzData" ng-controller="HistoryCtrl">
+            <section id="HistoryData" ng-controller="HistoryCtrl">
 
-                <h2 class="page-header"><a href="#GDomoticzData">Données GDomoticz</a></h2>
-
-                <h3>Historique des températures sur 24h</h3>
+                <h2 class="page-header"><a href="#GDomoticzData">Historiques</a></h2>
 
                 <div id="temperaturesHistory" gdz-temperatures-history class="col-md-12"></div>
-
-                <h3>Historique des températures sur le mois</h3>
 
                 <div id="temperaturesHistoryMonth" gdz-temperatures-history-month class="col-md-12"></div>
 
@@ -246,12 +261,10 @@ desired effect
 
     <!-- Main Footer -->
     <footer class="main-footer">
-        <!-- To the right -->
-        <div class="pull-right hidden-xs">
+        <div class="pull-right">
             TODO dernier reload des données
         </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="#">gaeljw</a>.</strong> All rights reserved.&nbsp;
+        <strong>Copyright &copy; 2016 <a href="https://github.com/gaeljw">gaeljw</a>.</strong> All rights reserved.&nbsp;
         Powered by <a href="http://almsaeedstudio.com/">AdminLTE</a>.
     </footer>
 
@@ -271,7 +284,10 @@ desired effect
 <script src="highcharts/js/highcharts.js"></script>
 <script src="highcharts/js/highcharts-more.js"></script>
 <script src="highcharts/js/modules/solid-gauge.js"></script>
+<script src="highcharts/js/themes/grid-light.js"></script>
 <script src="highcharts/gdomoticz.js"></script>
+<!-- SlimScroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 <!-- GDomoticz -->

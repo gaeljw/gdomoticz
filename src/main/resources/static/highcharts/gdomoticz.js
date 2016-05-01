@@ -1,6 +1,11 @@
 Highcharts.setOptions({
     global: {
         useUTC: false
+    },
+    lang: {
+        months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+        shortMonths: [ "Jan" , "Fév" , "Mar" , "Avr" , "Mai" , "Jui" , "Jui" , "Aou" , "Sep" , "Oct" , "Nov" , "Déc"]
     }
 });
 
