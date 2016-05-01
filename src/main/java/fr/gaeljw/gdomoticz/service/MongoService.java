@@ -30,17 +30,17 @@ public class MongoService {
     public List<TemperatureAggregation> getLastDayTemperatures() {
         Date yesterday = Date.from(ZonedDateTime.now().minusDays(1).toInstant());
 
-        // db.temperatures.aggregate([
-        // {$match:{dateTime:{$gte:ISODate("2016-04-24T17:00:00")}}},
-        // {$sort:{dateTime:1}},
-        // {$group:{_id:"$idDevice",temperatures:{$push:{date:"$dateTime", temperature:"$temperature"}}}}
-        // ])
+//         db.temperatures.aggregate([
+//         {$match:{dateTime:{$gte:ISODate("2016-04-24T17:00:00")}}},
+//         {$sort:{dateTime:1}},
+//         {$group:{_id:"$nameDevice",temperatures:{$push:{date:"$dateTime", temperature:"$temperature"}}}}
+//         ])
 
         BSONObject groupTemperatures = new BasicDBObject().append("date", "$dateTime").append("temperature", "$temperature");
         Aggregation aggregation = newAggregation(
                 match(Criteria.where("dateTime").gte(yesterday)),
                 sort(Sort.Direction.ASC, "dateTime"),
-                group("idDevice").push(groupTemperatures).as("temperatures")
+                group("nameDevice").push(groupTemperatures).as("temperatures")
         );
 
         AggregationResults<TemperatureAggregation> temperatures =
@@ -51,18 +51,18 @@ public class MongoService {
 
     public List<TemperatureMinMax> getLastMonthTemperatures() {
 
-        // db.temperatures.aggregate([
-        // {$match:{dateTime:{$gte:ISODate("2016-03-01")}}},
-        // {$project:{idDevice:1,temperature:1,date:{$dateToString:{format:"%Y-%m-%d", date:"$dateTime"}}}},
-        // {$group:{_id:{idDevice:"$idDevice", date:"$date"}, min:{$min:"$temperature"}, max:{$max:"$temperature"}}},
-        // {$sort:{"_id.date":1}},
-        // {$group:{_id:"$_id.idDevice", points:{$push:{date:"$_id.date", min:"$min", max:"$max"}}}}
-        // ])
+//         db.temperatures.aggregate([
+//         {$match:{dateTime:{$gte:ISODate("2016-03-01")}}},
+//         {$project:{nameDevice:1,temperature:1,date:{$dateToString:{format:"%Y-%m-%d", date:"$dateTime"}}}},
+//         {$group:{_id:{nameDevice:"$nameDevice", date:"$date"}, min:{$min:"$temperature"}, max:{$max:"$temperature"}}},
+//         {$sort:{"_id.date":1}},
+//         {$group:{_id:"$_id.nameDevice", points:{$push:{date:"$_id.date", min:"$min", max:"$max"}}}}
+//         ])
 
         Date lastMonth = Date.from(ZonedDateTime.now().minusMonths(1).toInstant());
 
         final DBObject dateToString = new BasicDBObject("$project",
-                new BasicDBObject("idDevice", 1)
+                new BasicDBObject("nameDevice", 1)
                         .append("temperature", 1)
                         .append("date",
                                 new BasicDBObject("$dateToString",
@@ -80,9 +80,9 @@ public class MongoService {
                         return dateToString;
                     }
                 },
-                group("idDevice", "date").min("temperature").as("min").max("temperature").as("max"),
+                group("nameDevice", "date").min("temperature").as("min").max("temperature").as("max"),
                 sort(Sort.Direction.ASC, "_id.date"),
-                group("_id.idDevice").push(push).as("points")
+                group("_id.nameDevice").push(push).as("points")
         );
 
         AggregationResults<TemperatureMinMax> temperatures =

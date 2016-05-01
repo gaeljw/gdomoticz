@@ -183,7 +183,7 @@ app.directive('gdzTemperaturesHistory', function() {
                     }
                     scope.points.forEach(function(device) {
                        var serie = {};
-                       serie.name = 'Device ' + device.idDevice;
+                       serie.name = device.nameDevice;
                        serie.lineWidth = 2;
                        serie.data = [];
                        device.temperatures.forEach(function(point) {
@@ -230,7 +230,7 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
                     valueSuffix: '°C'
                 },
                 legend: {
-                    enabled: false
+                    enabled: true
                 },
                 series: []
             });
@@ -248,7 +248,7 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
                     }
                     scope.pointsMonth.forEach(function(device) {
                        var serie = {};
-                       serie.name = 'Device ' + device.idDevice;
+                       serie.name = device.nameDevice;
                        serie.data = [];
                        device.points.forEach(function(point) {
                            var p = [Date.parse(point.date), point.min, point.max];

@@ -9,15 +9,15 @@ import java.util.List;
 public class TemperatureAggregation {
 
     @Field("_id")
-    private String idDevice;
+    private String nameDevice;
     private List<TemperaturePoint> temperatures;
 
-    public String getIdDevice() {
-        return idDevice;
+    public String getNameDevice() {
+        return nameDevice;
     }
 
-    public void setIdDevice(String idDevice) {
-        this.idDevice = idDevice;
+    public void setNameDevice(String nameDevice) {
+        this.nameDevice = nameDevice;
     }
 
     public List<TemperaturePoint> getTemperatures() {
