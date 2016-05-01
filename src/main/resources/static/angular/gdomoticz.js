@@ -178,7 +178,9 @@ app.directive('gdzTemperaturesHistory', function() {
 
                if (chart) {
                     console.log('Graph exists');
-                    chart.series.length = 0;
+                    for (var i = chart.series.length - 1; i >= 0; --i) {
+                        chart.series[i].remove(false);
+                    }
                     scope.points.forEach(function(device) {
                        var serie = {};
                        serie.name = 'Device ' + device.idDevice;
@@ -187,8 +189,9 @@ app.directive('gdzTemperaturesHistory', function() {
                            var p = [Date.parse(point.date), point.temperature];
                            serie.data.push(p);
                        });
-                    chart.addSeries(serie, true);
+                        chart.addSeries(serie, false);
                    });
+                   chart.redraw();
                } else {
                console.log('test');
                }
@@ -239,7 +242,9 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
 
                if (chart) {
                     console.log('Graph exists');
-                    chart.series.length = 0;
+                    for (var i = chart.series.length - 1; i >= 0; --i) {
+                        chart.series[i].remove(false);
+                    }
                     scope.pointsMonth.forEach(function(device) {
                        var serie = {};
                        serie.name = 'Device ' + device.idDevice;
@@ -248,8 +253,9 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
                            var p = [Date.parse(point.date), point.min, point.max];
                            serie.data.push(p);
                        });
-                    chart.addSeries(serie, true);
+                    chart.addSeries(serie, false);
                    });
+                   chart.redraw();
                } else {
                     console.log('test');
                }
