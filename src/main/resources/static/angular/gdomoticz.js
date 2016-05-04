@@ -165,7 +165,6 @@ app.directive('gdzTemperaturesHistory', function() {
                         }
                     }
                 },
-
                 series: []
             });
 
@@ -181,10 +180,11 @@ app.directive('gdzTemperaturesHistory', function() {
                     for (var i = chart.series.length - 1; i >= 0; --i) {
                         chart.series[i].remove(false);
                     }
-                    scope.points.forEach(function(device) {
+                    scope.points.forEach(function(device, i) {
                        var serie = {};
                        serie.name = device.nameDevice;
                        serie.lineWidth = 2;
+                       serie.color = Highcharts.getOptions().colors[i];
                        serie.data = [];
                        device.temperatures.forEach(function(point) {
                            var p = [Date.parse(point.date), point.temperature];
@@ -245,11 +245,11 @@ app.directive('gdzTemperaturesHistoryMonth', ['$filter', function($filter) {
                     for (var i = chart.series.length - 1; i >= 0; --i) {
                         chart.series[i].remove(false);
                     }
-                    scope.pointsMonth.forEach(function(device) {
+                    scope.pointsMonth.forEach(function(device, i) {
                        var serie = {};
                        var serieAvg = {};
-                       serie.name = 'Min/Max ' + device.nameDevice;
-                       serieAvg.name = 'Moyenne ' + device.nameDevice;
+                       serie.name = device.nameDevice;
+                       serieAvg.name = device.nameDevice + '(Moyenne)';
                        serie.type = 'arearange';
                        serie.zIndex = 0;
                        serieAvg.zIndex = 1;
@@ -262,6 +262,11 @@ app.directive('gdzTemperaturesHistoryMonth', ['$filter', function($filter) {
                            serie.data.push(p);
                            serieAvg.data.push(pAvg);
                        });
+                       // Style
+                       serie.color = Highcharts.getOptions().colors[i];
+                       serie.fillOpacity = 0.5;
+                       serie.lineWidth = 0;
+                       serieAvg.color = Highcharts.getOptions().colors[i];
                     chart.addSeries(serie, false);
                     chart.addSeries(serieAvg, false);
                    });

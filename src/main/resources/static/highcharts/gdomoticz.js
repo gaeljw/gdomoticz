@@ -6,7 +6,8 @@ Highcharts.setOptions({
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
         weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
         shortMonths: [ "Jan" , "Fév" , "Mar" , "Avr" , "Mai" , "Jui" , "Jui" , "Aou" , "Sep" , "Oct" , "Nov" , "Déc"]
-    }
+    },
+    colors: ['#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
 });
 
 
