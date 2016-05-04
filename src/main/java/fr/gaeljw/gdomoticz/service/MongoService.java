@@ -54,9 +54,9 @@ public class MongoService {
 //         db.temperatures.aggregate([
 //         {$match:{dateTime:{$gte:ISODate("2016-03-01")}}},
 //         {$project:{nameDevice:1,temperature:1,date:{$dateToString:{format:"%Y-%m-%d", date:"$dateTime"}}}},
-//         {$group:{_id:{nameDevice:"$nameDevice", date:"$date"}, min:{$min:"$temperature"}, max:{$max:"$temperature"}}},
+//         {$group:{_id:{nameDevice:"$nameDevice", date:"$date"}, min:{$min:"$temperature"}, max:{$max:"$temperature"}, moy:{$avg:"$temperature"}}},
 //         {$sort:{"_id.date":1}},
-//         {$group:{_id:"$_id.nameDevice", points:{$push:{date:"$_id.date", min:"$min", max:"$max"}}}}
+//         {$group:{_id:"$_id.nameDevice", points:{$push:{date:"$_id.date", min:"$min", max:"$max", moy:"$moy"}}}}
 //         ])
 
         Date lastMonth = Date.from(ZonedDateTime.now().minusMonths(1).toInstant());
@@ -70,7 +70,10 @@ public class MongoService {
                                                 .append("format", "%Y-%m-%d")
                                                 .append("date", "$dateTime"))));
 
-        BSONObject push = new BasicDBObject().append("date", "$_id.date").append("min", "$min").append("max", "$max");
+        BSONObject push = new BasicDBObject().append("date", "$_id.date")
+                .append("min", "$min")
+                .append("max", "$max")
+                .append("moy", "$moy");
 
         Aggregation aggregation = newAggregation(
                 match(Criteria.where("dateTime").gte(lastMonth)),
@@ -80,7 +83,10 @@ public class MongoService {
                         return dateToString;
                     }
                 },
-                group("nameDevice", "date").min("temperature").as("min").max("temperature").as("max"),
+                group("nameDevice", "date")
+                        .min("temperature").as("min")
+                        .max("temperature").as("max")
+                        .avg("temperature").as("moy"),
                 sort(Sort.Direction.ASC, "_id.date"),
                 group("_id.nameDevice").push(push).as("points")
         );

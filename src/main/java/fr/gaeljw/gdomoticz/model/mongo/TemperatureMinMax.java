@@ -31,6 +31,7 @@ public class TemperatureMinMax {
         private String date;
         private double min;
         private double max;
+        private double moy;
 
         public String getDate() {
             // FIXME hack
@@ -57,5 +58,12 @@ public class TemperatureMinMax {
             this.max = max;
         }
 
+        public double getMoy() {
+            return moy;
+        }
+
+        public void setMoy(double moy) {
+            this.moy = moy;
+        }
     }
 }

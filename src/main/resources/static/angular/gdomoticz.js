@@ -201,7 +201,7 @@ app.directive('gdzTemperaturesHistory', function() {
     }
 });
 
-app.directive('gdzTemperaturesHistoryMonth', function() {
+app.directive('gdzTemperaturesHistoryMonth', ['$filter', function($filter) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -210,7 +210,6 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
             var chart = new Highcharts.Chart({
                 chart: {
                     renderTo: divId,
-                    type: 'arearange',
                     zoomType: 'x'
                 },
                 title: {
@@ -248,13 +247,23 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
                     }
                     scope.pointsMonth.forEach(function(device) {
                        var serie = {};
-                       serie.name = device.nameDevice;
+                       var serieAvg = {};
+                       serie.name = 'Min/Max ' + device.nameDevice;
+                       serieAvg.name = 'Moyenne ' + device.nameDevice;
+                       serie.type = 'arearange';
+                       serie.zIndex = 0;
+                       serieAvg.zIndex = 1;
+                       serieAvg.linkedTo = ':previous';
                        serie.data = [];
+                       serieAvg.data = [];
                        device.points.forEach(function(point) {
                            var p = [Date.parse(point.date), point.min, point.max];
+                           var pAvg = [Date.parse(point.date), Math.round(point.moy * 100) / 100];
                            serie.data.push(p);
+                           serieAvg.data.push(pAvg);
                        });
                     chart.addSeries(serie, false);
+                    chart.addSeries(serieAvg, false);
                    });
                    chart.redraw();
                } else {
@@ -263,4 +272,4 @@ app.directive('gdzTemperaturesHistoryMonth', function() {
            });
         }
     }
-});
+}]);
