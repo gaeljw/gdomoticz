@@ -250,7 +250,8 @@ app.directive('gdzTemperaturesHistoryMonth', ['$filter', function($filter) {
                        var serieAvg = {};
                        serie.name = device.nameDevice;
                        serieAvg.name = device.nameDevice + '(Moyenne)';
-                       serie.type = 'arearange';
+                       serie.type = 'areasplinerange';
+                       serieAvg.type = 'spline';
                        serie.zIndex = 0;
                        serieAvg.zIndex = 1;
                        serieAvg.linkedTo = ':previous';
