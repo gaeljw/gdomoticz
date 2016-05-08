@@ -11,6 +11,7 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
+    <logger name="org.springframework.data" level="INFO"/>
     <logger name="org.springframework.web" level="INFO"/>
     <logger name="fr.gaeljw.gdomoticz" level="INFO"/>
 </configuration>

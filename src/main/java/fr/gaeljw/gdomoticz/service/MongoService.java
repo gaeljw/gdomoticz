@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperationContext;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -31,14 +30,23 @@ public class MongoService {
         Date yesterday = Date.from(ZonedDateTime.now().minusDays(1).toInstant());
 
 //         db.temperatures.aggregate([
-//         {$match:{dateTime:{$gte:ISODate("2016-04-24T17:00:00")}}},
+//         {$match:{dateTime:{$gte:ISODate("2016-04-24T17:00:00")}, show:{$ne:false} }},
 //         {$sort:{dateTime:1}},
 //         {$group:{_id:"$nameDevice",temperatures:{$push:{date:"$dateTime", temperature:"$temperature"}}}}
 //         ])
 
+        DBObject match = new BasicDBObject().append("$match",
+                new BasicDBObject()
+                        .append("dateTime", new BasicDBObject("$gte", yesterday))
+                        .append("show", new BasicDBObject("$ne", false)));
         BSONObject groupTemperatures = new BasicDBObject().append("date", "$dateTime").append("temperature", "$temperature");
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("dateTime").gte(yesterday)),
+                new AggregationOperation() {
+                    @Override
+                    public DBObject toDBObject(AggregationOperationContext context) {
+                        return match;
+                    }
+                },
                 sort(Sort.Direction.ASC, "dateTime"),
                 group("nameDevice").push(groupTemperatures).as("temperatures")
         );
@@ -52,7 +60,7 @@ public class MongoService {
     public List<TemperatureMinMax> getLastMonthTemperatures() {
 
 //         db.temperatures.aggregate([
-//         {$match:{dateTime:{$gte:ISODate("2016-03-01")}}},
+//         {$match:{dateTime:{$gte:ISODate("2016-03-01")}, show:{$ne:false} }},
 //         {$project:{nameDevice:1,temperature:1,date:{$dateToString:{format:"%Y-%m-%d", date:"$dateTime"}}}},
 //         {$group:{_id:{nameDevice:"$nameDevice", date:"$date"}, min:{$min:"$temperature"}, max:{$max:"$temperature"}, moy:{$avg:"$temperature"}}},
 //         {$sort:{"_id.date":1}},
@@ -60,6 +68,11 @@ public class MongoService {
 //         ])
 
         Date lastMonth = Date.from(ZonedDateTime.now().minusMonths(1).toInstant());
+
+        final DBObject match = new BasicDBObject().append("$match",
+                new BasicDBObject()
+                        .append("dateTime", new BasicDBObject("$gte", lastMonth))
+                        .append("show", new BasicDBObject("$ne", false)));
 
         final DBObject dateToString = new BasicDBObject("$project",
                 new BasicDBObject("nameDevice", 1)
@@ -76,7 +89,12 @@ public class MongoService {
                 .append("moy", "$moy");
 
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("dateTime").gte(lastMonth)),
+                new AggregationOperation() {
+                    @Override
+                    public DBObject toDBObject(AggregationOperationContext context) {
+                        return match;
+                    }
+                },
                 new AggregationOperation() {
                     @Override
                     public DBObject toDBObject(AggregationOperationContext context) {
