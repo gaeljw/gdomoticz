@@ -3,18 +3,18 @@ var app = angular.module('gdomoticzApp', ['ngResource']);
 
 // Create service for accessing temperature
 app.factory("temperatureFactory", function($resource) {
-    return $resource('/data/temperatures');
+    return $resource('data/temperatures');
 });
 app.factory("temperatureHistoryFactory", function($resource) {
-    return $resource('/data/history/temperatures');
+    return $resource('data/history/temperatures');
 });
 app.factory("temperaturesMonthHistoryFactory", function($resource) {
-    return $resource('/data/history/temperatures/month');
+    return $resource('data/history/temperatures/month');
 });
 
 // Create service for accessing system metrics
 app.factory("systemFactory", function($resource) {
-    return $resource('/system/metrics');
+    return $resource('system/metrics');
 });
 
 
